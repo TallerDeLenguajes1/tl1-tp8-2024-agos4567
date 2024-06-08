@@ -14,8 +14,8 @@
             this.operacion = operacion;
             this.nuevoValor=nuevoValor;
         }
-      public double Resultado { get => resultadoAnterior;}          private double dato;
+      public double ResultadoAnterior { get => resultadoAnterior;}          private double dato;
 
       public double NuevoValor {get => nuevoValor;}
-        public TipoOperacion Operation { get => operacion; }
+        public TipoOperacion OperacionRealizada { get => operacion; }
          }

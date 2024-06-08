@@ -19,20 +19,20 @@ using System.Text;
 
 
         public void suma (double sumando){
-         historial.Add(new Operacion(dato, sumando, TipoOperacion.Suma));
+         historial.Add(new Operacion(dato, dato + sumando, TipoOperacion.Suma));
             dato += sumando;
            
 
          }
          
          public void resta (double sustraendo){
-            historial.Add(new Operacion(dato, sustraendo, TipoOperacion.Resta));
+            historial.Add(new Operacion(dato, dato - sustraendo, TipoOperacion.Resta));
             dato -= sustraendo;
            
          }
 
           public void multiplicacion (double multiplicacion){
-             historial.Add(new Operacion(dato, multiplicacion, TipoOperacion.Multiplicacion));
+             historial.Add(new Operacion(dato, dato *multiplicacion, TipoOperacion.Multiplicacion));
             dato *=multiplicacion;
           }
 
@@ -52,14 +52,15 @@ using System.Text;
                     
                 } while (divisor ==0 || !valido);
               }
-               historial.Add(new Operacion(dato, divisor, TipoOperacion.Division));
+               historial.Add(new Operacion(dato, dato/divisor, TipoOperacion.Division));
                dato /=divisor;
 
           }
 
 
          public void Limpiar(double dato){
-            dato=0;
+             historial.Add(new Operacion(dato, 0, TipoOperacion.Limpiar));
+            dato = 0;
          }
 
 
