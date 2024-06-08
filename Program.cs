@@ -1,148 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using ClasesGeneral;
-using System.Collections.Generic;
-using System.Text;
-
-// See https://aka.ms/new-console-template for more information
+﻿﻿using EspacioCalculadora;
+using System;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 
-// Console.WriteLine("Hello, World!");
-  
+            Calculadora cal1= new Calculadora();
+     
+          double num;
+          bool valido=false;
 
-  Random random = new Random();
+          string entrada;
 
-  int cantPend= random.Next(1,4);
-
-// bool condicion =false;
-  List<Tarea> listaDeTareasPendientes = new List<Tarea>();
-
-
-  List<Tarea> listaDeTareasR = new List<Tarea>();
-
-  Tarea aux = new Tarea();
-
-
-  int opcion =7;
-
-
-
-
-
-     for (int i = 0; i < cantPend; i++)
-     {
-        Console.WriteLine(" //// Carga de Tareas: ////");
-        Console.WriteLine("Ingrese la descripcion de la tarea: ");
-        string? auxTarea = Console.ReadLine();
-         Console.WriteLine("Ingrese la duracion ");
-          int auxDuracion=Convert.ToInt32(Console.ReadLine());
-
-         Tarea tarea= new Tarea();
-              tarea.IDtarea = i+ 1;
-              tarea.Descripcion=auxTarea;
-
-          if (auxDuracion<10 || auxDuracion>100)
-          {
-             do
-            {
-      Console.WriteLine("Ingrese la duracion nuevamente (entre 10/100)");
-       auxDuracion=Convert.ToInt32(Console.ReadLine());
-
+          int opcion;
+          int op=0;
 
               
-            } while(auxDuracion<10 || auxDuracion>100);
-          
-          }
 
-         
-         
-  if(auxDuracion>=10 || auxDuracion <=100)
-         {
-           
-           tarea.Duracion= auxDuracion;
-          }
+        do
+        {
+            op=1;
+            
+                 do
+                 {
+                     Console.WriteLine("Ingrese el primer numero: ");
+                entrada=Console.ReadLine();
 
-         
-              listaDeTareasPendientes.Add(tarea);
-       }
+                valido=double.TryParse(entrada, out num);
 
-        
-       do
-       {
-        
-            Console.WriteLine("(1)--MOSTRAR TAREAS PENDIENTES");
-            Console.WriteLine("(2)--MOSTRAR TAREAS REALIZADAS");
-             Console.WriteLine("(3)--MOVER--");
-             Console.WriteLine("(4)--Buscar por palabra");
-             Console.WriteLine("(5)--Buscar por id");
-              Console.WriteLine("(0)--Cerrar");
 
-               opcion=Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Ingresa la operaciona  realizar \n-1suma\n 2-resta\n 3-multiplicacion\n 4-division\n 5 limpiar\n \n 6 historial\n");
+                entrada=Console.ReadLine();
+                valido=int.TryParse(entrada,out opcion);
 
+                 switch (opcion)
+                 {
+                    
+                   case 1:
+                   Console.WriteLine("El resultado de la suma es");
+                   cal1.suma(num);
+                   Console.WriteLine(cal1.Resultado);
+                   break;
+
+
+                    case 2:
+                   Console.WriteLine("El resultado de la resta es");
+                   cal1.resta(num);
+                   Console.WriteLine(cal1.Resultado);
+                   break;
+
+                   case 3:
+                  Console.WriteLine("El resultado de la multiplicacion es");
+                   cal1.multiplicacion(num);
+                   Console.WriteLine(cal1.Resultado);
+                   break;
+
+                 case 4:
+                 Console.WriteLine("El resultado de la division es");
+                   cal1.dividir(num);
+                   Console.WriteLine(cal1.Resultado);
+                 break;
                 
-           switch (opcion)
-           {
-            case 1:
-    
-      Console.WriteLine("----Tareas pendientes-----");
-      Funciones.mostrarTareas(listaDeTareasPendientes);
-       
+
+                case 5:
+               cal1.Limpiar(num);
+               Console.WriteLine(cal1.Resultado);
+                break;
+
+                case 6:
+               int val =1;
+            
+                foreach (Operacion opp in cal1.Historial )
+                {
+                  Console.WriteLine($"\nOperacion {val}");
+                        Console.WriteLine($"\nDato de entrada: {opp.Resultado}");
+                        Console.WriteLine($"\nOperacion: {opp.Operation}");
+                        Console.WriteLine($"\nResultado: {opp.NuevoValor}");
+                       val++;
+                }
+           
+                break;
+
+                   default:
+                   break;
+                   
+                 }
 
 
-            break;
+                     if(!valido){
+                            Console.WriteLine("el numero ingresado no es valido");
+                        }
 
 
-          case 2:
-
-            Console.WriteLine("----Tareas realizadas-----");
-        Funciones.mostrarTareas(listaDeTareasR);
+                 } while (!valido);
 
 
-            break;
+                      
 
-         case 3:
-
-    Funciones.MoverTarea(listaDeTareasPendientes,listaDeTareasR);
-         break;
-
-
-
-
-            case 4:
-
-            Console.WriteLine("Ingrese la clave de la tarea a buscar: ");
-            string? clave=Console.ReadLine();
-
-              
-        aux=Funciones.BuscarTareaClave(clave, listaDeTareasPendientes, listaDeTareasR);
-              Console.WriteLine("---Tarea encontrada---");
-            Console.WriteLine("Id de la tarea:" +aux.IDtarea);
-            Console.WriteLine("Descripcion: " + aux.Descripcion);
-        Console.WriteLine("Duracion: " + aux.Duracion);
-             
-
-            break;
-
-            case 5:
-
-            Console.WriteLine("Ingrese el id de la tarea a buscar:");
-              int idbuscar=Convert.ToInt32(Console.ReadLine());
-
-                aux=Funciones.BuscarTareaId(idbuscar, listaDeTareasPendientes, listaDeTareasR);
-                  
-              
-            Console.WriteLine("Id de la tarea:" +aux.IDtarea);
-         
-        Console.WriteLine("Descripcion: " + aux.Descripcion);
-        Console.WriteLine("Duracion: " + aux.Duracion);
-            break;
-            default:
-            break;
-           }
-
-
-
-
-       } while (opcion !=0);
-
+            Console.WriteLine("Desea realizar otra operacion (1.SI/ 0.NO)");
+            op=Convert.ToInt32(Console.ReadLine());
+        } while (op !=0);
 
