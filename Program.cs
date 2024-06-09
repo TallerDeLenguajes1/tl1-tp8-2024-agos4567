@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using ClasesGeneral;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ using System.Text;
   Random random = new Random();
 
   int cantPend= random.Next(1,4);
-
+  Funciones funciones = new Funciones();
 // bool condicion =false;
   List<Tarea> listaDeTareasPendientes = new List<Tarea>();
 
@@ -85,7 +85,7 @@ using System.Text;
             case 1:
     
       Console.WriteLine("----Tareas pendientes-----");
-      Funciones.mostrarTareas(listaDeTareasPendientes);
+      funciones.mostrarTareas(listaDeTareasPendientes);
        
 
 
@@ -95,46 +95,74 @@ using System.Text;
           case 2:
 
             Console.WriteLine("----Tareas realizadas-----");
-        Funciones.mostrarTareas(listaDeTareasR);
+        funciones.mostrarTareas(listaDeTareasR);
 
 
             break;
 
          case 3:
 
-    Funciones.MoverTarea(listaDeTareasPendientes,listaDeTareasR);
+    funciones.MoverTarea(listaDeTareasPendientes,listaDeTareasR);
          break;
 
 
 
 
             case 4:
+                        Console.WriteLine("Ingrese la clave de la tarea a buscar:");
+                        string clave = Console.ReadLine();
+                        Tarea tareaClave = funciones.BuscarTareaClave(clave, listaDeTareasPendientes, listaDeTareasR);
+                        if (tareaClave != null)
+                        {
+                            Console.WriteLine("---Tarea encontrada---");
+                            Console.WriteLine($"ID de la tarea: {tareaClave.IDtarea}");
+                            Console.WriteLine($"Descripción: {tareaClave.Descripcion}");
+                            Console.WriteLine($"Duración: {tareaClave.Duracion}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarea no encontrada.");
+                        }
 
-            Console.WriteLine("Ingrese la clave de la tarea a buscar: ");
-            string? clave=Console.ReadLine();
+        //     Console.WriteLine("Ingrese la clave de la tarea a buscar: ");
+        //     string? clave=Console.ReadLine();
 
               
-        aux=Funciones.BuscarTareaClave(clave, listaDeTareasPendientes, listaDeTareasR);
-              Console.WriteLine("---Tarea encontrada---");
-            Console.WriteLine("Id de la tarea:" +aux.IDtarea);
-            Console.WriteLine("Descripcion: " + aux.Descripcion);
-        Console.WriteLine("Duracion: " + aux.Duracion);
+        // aux=funciones.BuscarTareaClave(clave, listaDeTareasPendientes, listaDeTareasR);
+        //       Console.WriteLine("---Tarea encontrada---");
+        //     Console.WriteLine("Id de la tarea:" +aux.IDtarea);
+        //     Console.WriteLine("Descripcion: " + aux.Descripcion);
+        // Console.WriteLine("Duracion: " + aux.Duracion);
              
 
             break;
 
             case 5:
+             Console.WriteLine("Ingrese el ID de la tarea a buscar:");
+                        int idbuscar = Convert.ToInt32(Console.ReadLine());
+                        Tarea tareaId = funciones.BuscarTareaId(idbuscar, listaDeTareasPendientes, listaDeTareasR);
+                        if (tareaId != null)
+                        {
+                            Console.WriteLine("---Tarea encontrada---");
+                            Console.WriteLine($"ID de la tarea: {tareaId.IDtarea}");
+                            Console.WriteLine($"Descripción: {tareaId.Descripcion}");
+                            Console.WriteLine($"Duración: {tareaId.Duracion}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarea no encontrada.");
+                        }
 
-            Console.WriteLine("Ingrese el id de la tarea a buscar:");
-              int idbuscar=Convert.ToInt32(Console.ReadLine());
+        //     Console.WriteLine("Ingrese el id de la tarea a buscar:");
+        //       int idbuscar=Convert.ToInt32(Console.ReadLine());
 
-                aux=Funciones.BuscarTareaId(idbuscar, listaDeTareasPendientes, listaDeTareasR);
+        //         aux=funciones.BuscarTareaId(idbuscar, listaDeTareasPendientes, listaDeTareasR);
                   
               
-            Console.WriteLine("Id de la tarea:" +aux.IDtarea);
+        //     Console.WriteLine("Id de la tarea:" +aux.IDtarea);
          
-        Console.WriteLine("Descripcion: " + aux.Descripcion);
-        Console.WriteLine("Duracion: " + aux.Duracion);
+        // Console.WriteLine("Descripcion: " + aux.Descripcion);
+        // Console.WriteLine("Duracion: " + aux.Duracion);
             break;
             default:
             break;

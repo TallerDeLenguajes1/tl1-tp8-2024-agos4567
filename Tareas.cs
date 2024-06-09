@@ -25,7 +25,7 @@ using System.Collections.Generic;
 
 
 
-        public static void mostrarTareas( List<Tarea> listaDeTareas){
+        public void mostrarTareas( List<Tarea> listaDeTareas){
           if (listaDeTareas.Count==0)
           {
             Console.WriteLine("Esta lista esta vacia");
@@ -51,7 +51,7 @@ using System.Collections.Generic;
 
 
 
-      public static Tarea? BuscarTareaId(int idTarea, List<Tarea> listaDeTareasP,List<Tarea> listaDeTareasR){
+      public Tarea? BuscarTareaId(int idTarea, List<Tarea> listaDeTareasP,List<Tarea> listaDeTareasR){
 
 
         foreach (Tarea tarea in listaDeTareasP)
@@ -90,7 +90,7 @@ using System.Collections.Generic;
       }
 
 
-       public static Tarea? BuscarTareaClave(string? clave, List<Tarea> listaDeTareasP,List<Tarea> listaDeTareasR){
+       public Tarea? BuscarTareaClave(string? clave, List<Tarea> listaDeTareasP,List<Tarea> listaDeTareasR){
 
          Tarea BuscarTarea =new Tarea();
 
@@ -126,7 +126,7 @@ using System.Collections.Generic;
 
 
 
-      public static void MoverTarea( List<Tarea> listaDeTareasPendientes, List<Tarea> listaDeTareasRealizadas){
+      public void MoverTarea( List<Tarea> listaDeTareasPendientes, List<Tarea> listaDeTareasRealizadas){
      
           int idTarea;
           Console.WriteLine("Ingrese el ID de la tarea a mover:");
@@ -161,22 +161,6 @@ using System.Collections.Generic;
 
 
 
-
-
-    //       public static void Sumario(List<Tarea>  listaDeTareasRealizadas) 
-    // {
-
-
-      
-    //     int horasTotal = 0; 
-    //     StreamWriter file = new StreamWriter("sumario.txt"); 
-    //     foreach (Tarea tarea in  listaDeTareasRealizadas) 
-    //     {
-    //         horasTotal += tarea.Duracion;
-    //     }
-    //     file.WriteLine($"Sumario: {horasTotal}"); 
-    //     file.Close(); 
-    // }
 
 
 
