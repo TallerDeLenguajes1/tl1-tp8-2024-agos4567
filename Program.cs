@@ -1,176 +1,99 @@
 ﻿﻿using System;
-using System.Collections.Generic;
 using ClasesGeneral;
 using System.Collections.Generic;
-using System.Text;
-
-// See https://aka.ms/new-console-template for more information
 
 
-// Console.WriteLine("Hello, World!");
-  
+            Random random = new Random();
+            Funciones funciones = new Funciones();
+            List<Tarea> tareasPendientes = new List<Tarea>();
+            List<Tarea> tareasRealizadas = new List<Tarea>();
+            int opcion;
 
-  Random random = new Random();
-
-  int cantPend= random.Next(1,4);
-  Funciones funciones = new Funciones();
-// bool condicion =false;
-  List<Tarea> listaDeTareasPendientes = new List<Tarea>();
-
-
-  List<Tarea> listaDeTareasR = new List<Tarea>();
-
-  Tarea aux = new Tarea();
-
-
-  int opcion =7;
-
-
-
-
-
-     for (int i = 0; i < cantPend; i++)
-     {
-        Console.WriteLine(" //// Carga de Tareas: ////");
-        Console.WriteLine("Ingrese la descripcion de la tarea: ");
-        string? auxTarea = Console.ReadLine();
-         Console.WriteLine("Ingrese la duracion ");
-          int auxDuracion=Convert.ToInt32(Console.ReadLine());
-
-         Tarea tarea= new Tarea();
-              tarea.IDtarea = i+ 1;
-              tarea.Descripcion=auxTarea;
-
-          if (auxDuracion<10 || auxDuracion>100)
-          {
-             do
+            do
             {
-      Console.WriteLine("Ingrese la duracion nuevamente (entre 10/100)");
-       auxDuracion=Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("\nElija una opción:");
+                Console.WriteLine("1. Cargar Tarea en Pendientes");
+                Console.WriteLine("2. Mostrar Tareas Pendientes");
+                Console.WriteLine("3. Mostrar Tareas Realizadas");
+                Console.WriteLine("4. Mover Tarea de Pendientes a Realizadas");
+                Console.WriteLine("5. Buscar Tarea por Descripción");
+                Console.WriteLine("6. Buscar Tarea por ID");
+                Console.WriteLine("0. Salir");
 
+                opcion = Convert.ToInt32(Console.ReadLine());
 
-              
-            } while(auxDuracion<10 || auxDuracion>100);
-          
-          }
+                switch (opcion)
+                {
+                    case 1:
+                        Console.WriteLine("\n//// Cargar Tarea en Pendientes ////");
+                        Console.WriteLine("Ingrese la cantidad de tareas a cargar:");
+                        int cantPend = Convert.ToInt32(Console.ReadLine());
+                        List<Tarea> nuevasTareas = funciones.CargarTareas(cantPend);
+                        tareasPendientes.AddRange(nuevasTareas);
+                        break;
 
-         
-         
-  if(auxDuracion>=10 || auxDuracion <=100)
-         {
-           
-           tarea.Duracion= auxDuracion;
-          }
+                    case 2:
+                        Console.WriteLine("--- Mostrar tareas pendientes ---");
+                        funciones.MostrarTareas(tareasPendientes);
+                        break;
 
-         
-              listaDeTareasPendientes.Add(tarea);
-       }
+                    case 3:
+                        Console.WriteLine("--- Mostrar tareas realizadas ---");
+                        funciones.MostrarTareas(tareasRealizadas);
+                        break;
 
-        
-       do
-       {
-        
-            Console.WriteLine("(1)--MOSTRAR TAREAS PENDIENTES");
-            Console.WriteLine("(2)--MOSTRAR TAREAS REALIZADAS");
-             Console.WriteLine("(3)--MOVER--");
-             Console.WriteLine("(4)--Buscar por palabra");
-             Console.WriteLine("(5)--Buscar por id");
-              Console.WriteLine("(0)--Cerrar");
-
-               opcion=Convert.ToInt32(Console.ReadLine());
-
-                
-           switch (opcion)
-           {
-            case 1:
-    
-      Console.WriteLine("----Tareas pendientes-----");
-      funciones.mostrarTareas(listaDeTareasPendientes);
-       
-
-
-            break;
-
-
-          case 2:
-
-            Console.WriteLine("----Tareas realizadas-----");
-        funciones.mostrarTareas(listaDeTareasR);
-
-
-            break;
-
-         case 3:
-
-    funciones.MoverTarea(listaDeTareasPendientes,listaDeTareasR);
-         break;
-
-
-
-
-            case 4:
-                        Console.WriteLine("Ingrese la clave de la tarea a buscar:");
-                        string clave = Console.ReadLine();
-                        Tarea tareaClave = funciones.BuscarTareaClave(clave, listaDeTareasPendientes, listaDeTareasR);
-                        if (tareaClave != null)
+                    case 4:
+                        Console.WriteLine("\n//// Mover Tarea de Pendientes a Realizadas ////");
+                        Console.WriteLine("Ingrese el ID de la tarea que desea mover:");
+                        int idTareaMover = Convert.ToInt32(Console.ReadLine());
+                        Tarea tareaAMover = funciones.BuscarTareaId(idTareaMover, tareasPendientes, tareasRealizadas);
+                        if (tareaAMover != null)
                         {
-                            Console.WriteLine("---Tarea encontrada---");
-                            Console.WriteLine($"ID de la tarea: {tareaClave.IDtarea}");
-                            Console.WriteLine($"Descripción: {tareaClave.Descripcion}");
-                            Console.WriteLine($"Duración: {tareaClave.Duracion}");
+                            funciones.MoverTarea(idTareaMover, tareasPendientes, tareasRealizadas);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarea no encontrada en la lista de pendientes.");
+                        }
+                        break;
+
+                    case 5:
+                        Console.WriteLine("\n//// Buscar Tarea por Descripción ////");
+                        Console.WriteLine("Ingrese la descripción de la tarea:");
+                        string descripcionBusqueda = Console.ReadLine();
+                        Tarea tareaEncontradaDescripcion = funciones.BuscarTareaClave(descripcionBusqueda, tareasPendientes, tareasRealizadas);
+                        if (tareaEncontradaDescripcion != null)
+                        {
+                            tareaEncontradaDescripcion.MostrarTarea();
                         }
                         else
                         {
                             Console.WriteLine("Tarea no encontrada.");
                         }
+                        break;
 
-        //     Console.WriteLine("Ingrese la clave de la tarea a buscar: ");
-        //     string? clave=Console.ReadLine();
-
-              
-        // aux=funciones.BuscarTareaClave(clave, listaDeTareasPendientes, listaDeTareasR);
-        //       Console.WriteLine("---Tarea encontrada---");
-        //     Console.WriteLine("Id de la tarea:" +aux.IDtarea);
-        //     Console.WriteLine("Descripcion: " + aux.Descripcion);
-        // Console.WriteLine("Duracion: " + aux.Duracion);
-             
-
-            break;
-
-            case 5:
-             Console.WriteLine("Ingrese el ID de la tarea a buscar:");
-                        int idbuscar = Convert.ToInt32(Console.ReadLine());
-                        Tarea tareaId = funciones.BuscarTareaId(idbuscar, listaDeTareasPendientes, listaDeTareasR);
-                        if (tareaId != null)
+                    case 6:
+                        Console.WriteLine("\n//// Buscar Tarea por ID ////");
+                        Console.WriteLine("Ingrese el ID de la tarea:");
+                        int idBusqueda = Convert.ToInt32(Console.ReadLine());
+                        Tarea tareaEncontrada = funciones.BuscarTareaId(idBusqueda, tareasPendientes, tareasRealizadas);
+                        if (tareaEncontrada != null)
                         {
-                            Console.WriteLine("---Tarea encontrada---");
-                            Console.WriteLine($"ID de la tarea: {tareaId.IDtarea}");
-                            Console.WriteLine($"Descripción: {tareaId.Descripcion}");
-                            Console.WriteLine($"Duración: {tareaId.Duracion}");
+                            tareaEncontrada.MostrarTarea();
                         }
                         else
                         {
                             Console.WriteLine("Tarea no encontrada.");
                         }
+                        break;
 
-        //     Console.WriteLine("Ingrese el id de la tarea a buscar:");
-        //       int idbuscar=Convert.ToInt32(Console.ReadLine());
+                    case 0:
+                        Console.WriteLine("Saliendo del programa.");
+                        break;
 
-        //         aux=funciones.BuscarTareaId(idbuscar, listaDeTareasPendientes, listaDeTareasR);
-                  
-              
-        //     Console.WriteLine("Id de la tarea:" +aux.IDtarea);
-         
-        // Console.WriteLine("Descripcion: " + aux.Descripcion);
-        // Console.WriteLine("Duracion: " + aux.Duracion);
-            break;
-            default:
-            break;
-           }
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
 
-
-
-
-       } while (opcion !=0);
-
-
+            } while (opcion != 0);

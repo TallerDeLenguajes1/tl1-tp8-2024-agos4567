@@ -1,173 +1,128 @@
 using System;
 using System.Collections.Generic;
 
+namespace ClasesGeneral
+{
+    public class Tarea
+    {
+        private int idTarea;
+        private int duracion;
+        private string? descripcion;
 
-  namespace ClasesGeneral{
-
-    public class Tarea{
-
-     private int idTarea;
-     private int duracion;
-     private string? descripcion;
-
-        public int IDtarea { get => idTarea; set => idTarea = value; }
-        
+        public int IdTarea { get => idTarea; set => idTarea = value; }
         public int Duracion { get => duracion; set => duracion = value; }
-
         public string? Descripcion { get => descripcion; set => descripcion = value; }
-   
-        }    
-      
-     public  class Funciones{
-     public Funciones() {}
 
-
-
-
-
-        public void mostrarTareas( List<Tarea> listaDeTareas){
-          if (listaDeTareas.Count==0)
-          {
-            Console.WriteLine("Esta lista esta vacia");
-          }
-
-         foreach (Tarea tarea in listaDeTareas)
-       {
-        Console.WriteLine("Id de la tarea:" + tarea.IDtarea);
-        Console.WriteLine("Descripcion: " + tarea.Descripcion);
-        Console.WriteLine("Duracion: " + tarea.Duracion);
-
-
-
-
-
-
+        public Tarea(int idTarea, int duracion, string descripcion)
+        {
+            this.IdTarea = idTarea;
+            this.Duracion = duracion;
+            this.Descripcion = descripcion;
         }
 
-
-
- }
-
-
-
-
-      public Tarea? BuscarTareaId(int idTarea, List<Tarea> listaDeTareasP,List<Tarea> listaDeTareasR){
-
-
-        foreach (Tarea tarea in listaDeTareasP)
+        public void MostrarTarea()
         {
-            if (idTarea == tarea.IDtarea)
+            Console.WriteLine($"ID de la tarea: {IdTarea}");
+            Console.WriteLine($"Descripción de la tarea: {Descripcion}");
+            Console.WriteLine($"Duración de la tarea: {Duracion}");
+            Console.WriteLine("----------------------");
+        }
+    }
+
+    public class Funciones
+    {
+        public void MostrarTareas(List<Tarea> listaDeTareas)
+        {
+            if (listaDeTareas.Count == 0)
             {
-                return tarea;
-            }else
-            {
-              Console.WriteLine("ID no encontrado en lista de pendientes");
+                Console.WriteLine("La lista está vacía.");
             }
-
-
-
-        }
-
-
-
-         foreach (Tarea tarea in listaDeTareasR)
-        {
-            if (idTarea == tarea.IDtarea)
+            else
             {
-                return tarea;
-            }else
-            {
-              Console.WriteLine("ID no encontrado en esta lista tampoco");
-            }
-
-
-
-        }
-   
-   
-      return null;
-
-      }
-
-
-       public Tarea? BuscarTareaClave(string? clave, List<Tarea> listaDeTareasP,List<Tarea> listaDeTareasR){
-
-         Tarea BuscarTarea =new Tarea();
-
-
-         foreach (Tarea tarea in listaDeTareasP)
-        {
-            if (tarea.Descripcion == clave)
-            {
-                BuscarTarea=tarea;
-            }else
-            {
-              Console.WriteLine("busca otra lista");
+                foreach (Tarea tarea in listaDeTareas)
+                {
+                    tarea.MostrarTarea();
+                }
             }
         }
 
-
-        foreach (Tarea tarea in listaDeTareasR)
+        public List<Tarea> CargarTareas(int cantPend)
         {
-          if (tarea.Descripcion == clave)
+            List<Tarea> tareas = new List<Tarea>();
+            Random random = new Random();
+
+            for (int i = 0; i < cantPend; i++)
             {
-                BuscarTarea=tarea;
-            }else
-            {
-              Console.WriteLine("No se encontro la tarea en esta lista tampco");
+                Console.WriteLine($"Ingrese la descripción de la tarea {i + 1}:");
+                string? descripcion = Console.ReadLine();
+                int duracion = random.Next(10, 101); // Duración aleatoria entre 10 y 100
+
+                // Crea una nueva tarea con los parámetros especificados y la añade a la lista de tareas
+                Tarea tarea = new Tarea(i + 1, duracion, descripcion);
+                tareas.Add(tarea);
             }
+
+            return tareas;
         }
 
+        public Tarea? BuscarTareaId(int idTarea, List<Tarea> tareasPendientes, List<Tarea> tareasRealizadas)
+        {
+            foreach (Tarea tarea in tareasPendientes)
+            {
+                if (idTarea == tarea.IdTarea)
+                {
+                    return tarea;
+                }
+            }
 
-         return BuscarTarea;
+            foreach (Tarea tarea in tareasRealizadas)
+            {
+                if (idTarea == tarea.IdTarea)
+                {
+                    return tarea;
+                }
+            }
 
+            Console.WriteLine("ID no encontrado en ninguna lista.");
+            return null;
+        }
 
-       }
+        public Tarea? BuscarTareaClave(string? clave, List<Tarea> tareasPendientes, List<Tarea> tareasRealizadas)
+        {
+            foreach (Tarea tarea in tareasPendientes)
+            {
+                if (tarea.Descripcion == clave)
+                {
+                    return tarea;
+                }
+            }
 
+            foreach (Tarea tarea in tareasRealizadas)
+            {
+                if (tarea.Descripcion == clave)
+                {
+                    return tarea;
+                }
+            }
 
+            Console.WriteLine("Descripción no encontrada en ninguna lista.");
+            return null;
+        }
 
-      public void MoverTarea( List<Tarea> listaDeTareasPendientes, List<Tarea> listaDeTareasRealizadas){
-     
-          int idTarea;
-          Console.WriteLine("Ingrese el ID de la tarea a mover:");
-            idTarea=Convert.ToInt32(Console.ReadLine());
+        public void MoverTarea(int idTarea, List<Tarea> tareasPendientes, List<Tarea> tareasRealizadas)
+        {
+            Tarea? tareaEncontrada = BuscarTareaId(idTarea, tareasPendientes, tareasRealizadas);
 
-          foreach ( Tarea tareaP in listaDeTareasPendientes)
-          {
-          
-
-             if (idTarea == tareaP.IDtarea)
-             {
-              listaDeTareasRealizadas.Add(tareaP);
-             }
-
-    
-
-
-          }
-
-          foreach (Tarea tareaRemover in listaDeTareasRealizadas)
-             {
-              listaDeTareasPendientes.Remove(tareaRemover);
-             }
-
-
-
-
-
-
-
-      }
-
-
-
-
-
-
-
-     }
-
-
-
-
-  }
+            if (tareaEncontrada != null)
+            {
+                tareasRealizadas.Add(tareaEncontrada);
+                tareasPendientes.Remove(tareaEncontrada);
+                Console.WriteLine($"Tarea con ID {idTarea} movida a lista de tareas realizadas.");
+            }
+            else
+            {
+                Console.WriteLine($"No se encontró ninguna tarea con ID {idTarea} en las listas.");
+            }
+        }
+    }
+}
