@@ -17,7 +17,10 @@ using System.Text;
       //Evita que el historial completo sea reemplazado o modificado directamente desde fuera de la clase.
       public List<Operacion> Historial { get => historial; }
 
-
+            public Calculadora()
+        {
+            dato = 0; // Inicializar dato al crear la calculadora
+        }
         public void suma (double sumando){
          historial.Add(new Operacion(dato, dato + sumando, TipoOperacion.Suma));
             dato += sumando;
@@ -58,10 +61,15 @@ using System.Text;
           }
 
 
-         public void Limpiar(double dato){
-             historial.Add(new Operacion(dato, 0, TipoOperacion.Limpiar));
+        //  public void Limpiar(double dato){
+        //      historial.Add(new Operacion(dato, 0, TipoOperacion.Limpiar));
+        //     dato = 0;
+        //  }
+         public void Limpiar()
+        {
+            historial.Add(new Operacion(dato, 0, TipoOperacion.Limpiar));
             dato = 0;
-         }
+        }
 
 
          
